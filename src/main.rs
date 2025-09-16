@@ -1,5 +1,6 @@
 use rand::Rng;
 use std::io;
+use std::cmp::Ordering;
 
 fn main() {
     println!("Welcome to Bulls and Cows");
@@ -17,6 +18,31 @@ fn main() {
                 continue;
             }
         };
+
         attempts += 1;
+
+        if guess < 1 || guess > 10 {
+            println!("Please input a number between 1 and 10");
+            continue;
+        }
+        match guess.cmp(&secret_number) {
+            Ordering::Less => {
+                println!("too small!");
+                if attempts > 5 {
+                    println!("tips: you have tried {} times", attempts);
+                }
+            }
+            Ordering::Greater => {
+                println!("too big!");
+                if attempts > 5 {
+                    println!("tips: you have tried {} times", attempts);
+                }
+            }
+            Ordering::Equal => {
+                println!("Congratulation you are right!");
+                println!("tips: you have tried {} times", attempts);
+                break;
+            }
+        }
     }
 }
